@@ -10,11 +10,11 @@ const products = [
   // Parfume (6 Products)
   {
     id: 'p1',
-    name: 'Cendana Suci',
+    name: 'Hera',
     category: 'parfume',
     price: 1250000,
     originalPrice: 1500000,
-    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop',
+    image: '/images/Hera.jpg',
     rating: 4.9,
     reviews: 128,
     isNew: true,
