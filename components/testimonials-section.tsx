@@ -89,7 +89,7 @@ export function TestimonialsSection() {
             <span className="text-sm tracking-[0.3em] uppercase text-primary">Testimoni</span>
             <div className="w-12 h-[1px] bg-primary" />
           </motion.div>
-          <h2 
+          <h2
             className="text-4xl md:text-5xl font-bold text-foreground mb-4"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
@@ -173,11 +173,10 @@ export function TestimonialsSection() {
                     setIsAutoPlaying(false)
                     setCurrentIndex(index)
                   }}
-                  className={`transition-all duration-300 ${
-                    index === currentIndex
+                  className={`transition-all duration-300 ${index === currentIndex
                       ? 'w-8 h-2 bg-primary rounded-full'
                       : 'w-2 h-2 bg-primary/30 rounded-full hover:bg-primary/50'
-                  }`}
+                    }`}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
               ))}
@@ -202,9 +201,9 @@ export function TestimonialsSection() {
         >
           {[
             { value: '4.9', label: 'Rating' },
-            { value: '10K+', label: 'Ulasan' },
+            { value: '67+', label: 'Ulasan' },
             { value: '98%', label: 'Kepuasan' },
-            { value: '50+', label: 'Kota' },
+            { value: '67+', label: 'Kota' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
