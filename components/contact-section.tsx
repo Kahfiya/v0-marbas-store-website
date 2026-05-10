@@ -9,17 +9,17 @@ const contactInfo = [
   {
     icon: MapPin,
     title: 'Alamat',
-    content: 'Jl. Sudirman No. 123, Jakarta Selatan, Indonesia 12190',
+    content: 'Jl. Komplek 10 No. 84, Kalimantan Selatan, Indonesia 12190',
   },
   {
     icon: Phone,
     title: 'Telepon',
-    content: '+62 21 1234 5678',
+    content: '+62 895 3655 40011',
   },
   {
     icon: Mail,
     title: 'Email',
-    content: 'hello@marbas.id',
+    content: 'kahfiya@marbas.id',
   },
   {
     icon: Clock,
