@@ -23,7 +23,7 @@ const partners = [
   },
   { 
     name: 'Bukalapak', 
-    logo: 'https://ridergalau.id/wp-content/uploads/2026/01/Logo-Tokopedia.png' 
+    logo: 'https://maxcorpglobal.com/wp-content/uploads/2021/02/logo-bukalapak-terbaru-2020-png.png' 
   },
 ]
 
