@@ -12,7 +12,7 @@ const collections = [
     description: 'Wewangian eksklusif terinspirasi dari rempah-rempah dan bunga khas Indonesia',
     icon: Droplets,
     image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&h=800&fit=crop',
-    count: 18,
+    count: 6,
     color: 'from-amber-900/80 to-amber-700/60',
   },
   {
@@ -22,7 +22,7 @@ const collections = [
     description: 'Pakaian modern dengan sentuhan motif batik dan tenun tradisional',
     icon: Shirt,
     image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=800&fit=crop',
-    count: 24,
+    count: 6,
     color: 'from-stone-900/80 to-stone-700/60',
   },
   {
@@ -32,7 +32,7 @@ const collections = [
     description: 'Gadget dan aksesori dengan desain yang mengapresiasi estetika lokal',
     icon: Cpu,
     image: 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=600&h=800&fit=crop',
-    count: 12,
+    count: 3,
     color: 'from-slate-900/80 to-slate-700/60',
   },
 ]

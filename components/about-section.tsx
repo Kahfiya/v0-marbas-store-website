@@ -70,7 +70,7 @@ export function AboutSection() {
                 className="absolute -bottom-8 -right-8 bg-card p-6 rounded-xl shadow-xl max-w-[200px]"
               >
                 <div className="text-4xl font-bold text-primary mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>
-                  2019
+                  2026
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Didirikan dengan visi membawa warisan Nusantara ke dunia

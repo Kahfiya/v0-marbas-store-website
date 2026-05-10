@@ -160,8 +160,8 @@ export function HeroSection() {
           className="grid grid-cols-3 gap-8 max-w-xl mx-auto mt-16 pt-8 border-t border-border/50"
         >
           {[
-            { value: '50+', label: 'Produk' },
-            { value: '10K+', label: 'Pelanggan' },
+            { value: '11+', label: 'Produk' },
+            { value: '67+', label: 'Pelanggan' },
             { value: '100%', label: 'Asli' },
           ].map((stat, index) => (
             <motion.div
