@@ -236,7 +236,7 @@ export function ContactSection() {
                 <div className="text-center">
                   <MapPin className="w-12 h-12 text-primary mx-auto mb-3" />
                   <p className="text-foreground font-medium">MARBAS Store</p>
-                  <p className="text-sm text-muted-foreground">Jakarta, Indonesia</p>
+                  <p className="text-sm text-muted-foreground">Banjarmasin, Indonesia</p>
                 </div>
               </div>
               {/* Decorative Pattern */}
