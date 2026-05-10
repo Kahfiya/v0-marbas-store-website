@@ -2,54 +2,29 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-
-// SVG Icons for each platform
-const TokopediaIcon = () => (
-  <svg viewBox="0 0 100 100" className="w-8 h-8" fill="currentColor">
-    <circle cx="50" cy="50" r="45" fill="#42B549" />
-    <path d="M50 25C36.2 25 25 36.2 25 50s11.2 25 25 25 25-11.2 25-25S63.8 25 50 25zm0 40c-8.3 0-15-6.7-15-15s6.7-15 15-15 15 6.7 15 15-6.7 15-15 15z" fill="white" />
-    <circle cx="50" cy="50" r="8" fill="white" />
-  </svg>
-)
-
-const ShopeeIcon = () => (
-  <svg viewBox="0 0 100 100" className="w-8 h-8" fill="currentColor">
-    <rect width="100" height="100" rx="10" fill="#EE4D2D" />
-    <path d="M50 20c-10 0-18 8-18 18v2h-5v10h5v25h36V50h5V40h-5v-2c0-10-8-18-18-18zm-8 18c0-4.4 3.6-8 8-8s8 3.6 8 8v2H42v-2zm21 32H37V50h26v20z" fill="white" />
-  </svg>
-)
-
-const LazadaIcon = () => (
-  <svg viewBox="0 0 100 100" className="w-8 h-8" fill="currentColor">
-    <rect width="100" height="100" rx="10" fill="#0F146D" />
-    <path d="M25 35h10l5 30h-10l-5-30zm35 0h10l5 30h-10l-5-30zm-17.5 0h10l2.5 15-2.5 15h-10l2.5-15-2.5-15z" fill="#F57224" />
-    <path d="M30 70h40v5H30v-5z" fill="white" />
-  </svg>
-)
-
-const BlibliIcon = () => (
-  <svg viewBox="0 0 100 100" className="w-8 h-8" fill="currentColor">
-    <rect width="100" height="100" rx="10" fill="#0095DA" />
-    <circle cx="35" cy="50" r="12" fill="white" />
-    <circle cx="65" cy="50" r="12" fill="white" />
-    <path d="M35 42v16M65 42v16M30 50h10M60 50h10" stroke="#0095DA" strokeWidth="3" />
-  </svg>
-)
-
-const BukalapakIcon = () => (
-  <svg viewBox="0 0 100 100" className="w-8 h-8" fill="currentColor">
-    <rect width="100" height="100" rx="10" fill="#E31E52" />
-    <path d="M30 65V45c0-11 9-20 20-20s20 9 20 20v20" stroke="white" strokeWidth="6" fill="none" />
-    <circle cx="50" cy="65" r="10" fill="white" />
-  </svg>
-)
+import Image from 'next/image'
 
 const partners = [
-  { name: 'Tokopedia', icon: TokopediaIcon },
-  { name: 'Shopee', icon: ShopeeIcon },
-  { name: 'Lazada', icon: LazadaIcon },
-  { name: 'Blibli', icon: BlibliIcon },
-  { name: 'Bukalapak', icon: BukalapakIcon },
+  { 
+    name: 'Tokopedia', 
+    logo: 'https://ridergalau.id/wp-content/uploads/2026/01/Logo-Tokopedia.png' 
+  },
+  { 
+    name: 'Shopee', 
+    logo: 'https://logowik.com/content/uploads/images/shopee1950.jpg' 
+  },
+  { 
+    name: 'Lazada', 
+    logo: 'https://www.shinpo.co.id/wp-content/uploads/2021/10/lazada-logo-1.png' 
+  },
+  { 
+    name: 'Blibli', 
+    logo: 'https://images.seeklogo.com/logo-png/43/1/blibli-com-logo-png_seeklogo-431694.png' 
+  },
+  { 
+    name: 'Bukalapak', 
+    logo: 'https://ridergalau.id/wp-content/uploads/2026/01/Logo-Tokopedia.png' 
+  },
 ]
 
 const awards = [
@@ -76,26 +51,29 @@ export function FeaturedSection() {
             Tersedia di Platform Terpercaya
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-            {partners.map((partner, index) => {
-              const IconComponent = partner.icon
-              return (
-                <motion.div
-                  key={partner.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  className="flex flex-col items-center justify-center gap-2 px-6 py-4 bg-secondary/50 hover:bg-secondary rounded-xl cursor-pointer transition-colors group"
-                >
-                  <div className="transition-transform group-hover:scale-110">
-                    <IconComponent />
-                  </div>
-                  <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                    {partner.name}
-                  </span>
-                </motion.div>
-              )
-            })}
+            {partners.map((partner, index) => (
+              <motion.div
+                key={partner.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.1, y: -5 }}
+                className="flex flex-col items-center justify-center gap-2 px-6 py-4 bg-secondary/50 hover:bg-secondary rounded-xl cursor-pointer transition-colors group"
+              >
+                <div className="relative w-20 h-12 transition-transform group-hover:scale-110">
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    fill
+                    className="object-contain"
+                    unoptimized
+                  />
+                </div>
+                <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                  {partner.name}
+                </span>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
