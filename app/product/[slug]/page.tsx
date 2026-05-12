@@ -1,179 +1,117 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { Star, Heart, Share2, Minus, Plus, ShoppingCart } from 'lucide-react'
+import Link from 'next/link'
+import { Star, Heart, Share2, Minus, Plus, ShoppingCart, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
 import { useCart } from '@/hooks/use-cart'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { CartDrawer } from '@/components/cart-drawer'
-
-interface Product {
-  id: string
-  name: string
-  category: string
-  price: number
-  originalPrice?: number
-  image: string
-  rating: number
-  reviews: number
-  isNew: boolean
-  isBestSeller: boolean
-  description: string
-  stock: number
-  variants?: {
-    sizes?: string[]
-    colors?: string[]
-  }
-  gallery?: string[]
-}
-
-const mockVariants = {
-  sizes: ['S', 'M', 'L', 'XL'],
-  colors: ['Hitam', 'Putih', 'Coklat', 'Navy']
-}
-
-const mockGallery = [
-  'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=600&fit=crop'
-]
+import { getProductBySlug } from '@/lib/products'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
-  const [product, setProduct] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
+  const product = getProductBySlug(params.slug)
+
+  if (!product) return notFound()
+
+  return <ProductDetail product={product} />
+}
+
+function ProductDetail({ product }: { product: NonNullable<ReturnType<typeof getProductBySlug>> }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
   const [selectedColor, setSelectedColor] = useState('')
   const [quantity, setQuantity] = useState(1)
   const { addItem } = useCart()
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch('/api/products')
-        const data = await response.json()
-        const foundProduct = data.data.find((p: Product) => 
-          p.name.toLowerCase().replace(/\s+/g, '-') === params.slug
-        )
-        
-        if (!foundProduct) {
-          notFound()
-        }
-
-        // Add mock data for demo
-        foundProduct.variants = mockVariants
-        foundProduct.gallery = mockGallery
-        
-        setProduct(foundProduct)
-      } catch (error) {
-        console.error('Error fetching product:', error)
-        notFound()
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchProduct()
-  }, [params.slug])
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price)
 
   const handleAddToCart = () => {
-    if (!product) return
-    
-    const variantId = selectedSize || selectedColor ? 
-      `${product.id}-${selectedSize}-${selectedColor}` : product.id
-    
-    addItem({
-      id: variantId,
-      name: `${product.name}${selectedSize ? ` (${selectedSize})` : ''}${selectedColor ? ` - ${selectedColor}` : ''}`,
-      price: product.price,
-      image: product.gallery?.[selectedImage] || product.image,
-      category: product.category
-    })
+    const variantSuffix = [selectedSize, selectedColor].filter(Boolean).join('-')
+    const variantId = variantSuffix ? `${product.id}-${variantSuffix}` : product.id
+    const variantLabel = [selectedSize, selectedColor].filter(Boolean).join(' - ')
+
+    for (let i = 0; i < quantity; i++) {
+      addItem({
+        id: variantId,
+        name: variantLabel ? `${product.name} (${variantLabel})` : product.name,
+        price: product.price,
+        image: product.gallery?.[selectedImage] || product.image,
+        category: product.category,
+      })
+    }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
-        <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <div className="aspect-square bg-gray-200 rounded-2xl animate-pulse" />
-              <div className="grid grid-cols-4 gap-2">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="aspect-square bg-gray-200 rounded-lg animate-pulse" />
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <div className="h-8 bg-gray-200 rounded animate-pulse" />
-              <div className="h-6 bg-gray-200 rounded animate-pulse w-3/4" />
-              <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2" />
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (!product) return notFound()
-
-  const formatPrice = (price: number) => 
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)
+  const gallery = product.gallery ?? [product.image]
+  const hasSizes = (product.variants?.sizes?.length ?? 0) > 0
+  const hasColors = (product.variants?.colors?.length ?? 0) > 0
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
       <Header />
       <CartDrawer />
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        {/* Breadcrumb */}
+        <Link
+          href="/#products"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-amber-600 transition-colors mb-8"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Kembali ke Produk
+        </Link>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Image Gallery */}
           <div className="space-y-4">
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-lg">
               <Image
-                src={product.gallery?.[selectedImage] || product.image}
+                src={gallery[selectedImage]}
                 alt={product.name}
                 fill
-                className="object-cover"
+                className="object-cover transition-all duration-300"
                 priority
+                unoptimized
               />
-              {product.isNew && (
-                <Badge className="absolute top-4 left-4 bg-green-500 hover:bg-green-600">
-                  Baru
-                </Badge>
-              )}
-              {product.isBestSeller && (
-                <Badge className="absolute top-4 right-4 bg-amber-500 hover:bg-amber-600">
-                  Terlaris
-                </Badge>
-              )}
+              <div className="absolute top-4 left-4 flex flex-col gap-2">
+                {product.isNew && (
+                  <Badge className="bg-green-500 hover:bg-green-600">Baru</Badge>
+                )}
+                {product.isBestSeller && (
+                  <Badge className="bg-amber-500 hover:bg-amber-600">Terlaris</Badge>
+                )}
+                {product.originalPrice && (
+                  <Badge className="bg-red-500 hover:bg-red-600">
+                    {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
+                  </Badge>
+                )}
+              </div>
             </div>
-            
-            {product.gallery && (
+
+            {gallery.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
-                {product.gallery.map((img, index) => (
+                {gallery.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === index 
-                        ? 'border-amber-500 shadow-md' 
-                        : 'border-gray-200 hover:border-gray-300'
+                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${
+                      selectedImage === index
+                        ? 'border-amber-500 shadow-md scale-105'
+                        : 'border-gray-200 hover:border-amber-300'
                     }`}
                   >
                     <Image
                       src={img}
                       alt={`${product.name} ${index + 1}`}
-                      width={100}
-                      height={100}
+                      width={120}
+                      height={120}
                       className="w-full h-full object-cover"
+                      unoptimized
                     />
                   </button>
                 ))}
@@ -184,56 +122,60 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+              <p className="text-sm text-amber-600 uppercase tracking-widest mb-2 font-medium">
+                {product.category}
+              </p>
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
                 {product.name}
               </h1>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex items-center">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
+                      className={`w-4 h-4 ${
                         i < Math.floor(product.rating)
-                          ? 'text-yellow-400 fill-current'
+                          ? 'text-yellow-400 fill-yellow-400'
                           : 'text-gray-300'
                       }`}
                     />
                   ))}
                 </div>
-                <span className="text-sm text-gray-600">
-                  {product.rating} ({product.reviews} ulasan)
+                <span className="text-sm text-gray-500">
+                  {product.rating} · {product.reviews} ulasan
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* Price */}
+            <div className="flex items-baseline gap-3">
               <span className="text-3xl font-bold text-gray-900">
                 {formatPrice(product.price)}
               </span>
               {product.originalPrice && (
-                <span className="text-xl text-gray-500 line-through">
+                <span className="text-lg text-gray-400 line-through">
                   {formatPrice(product.originalPrice)}
                 </span>
               )}
             </div>
 
-            <p className="text-gray-600 leading-relaxed">
-              {product.description}
-            </p>
+            <p className="text-gray-600 leading-relaxed">{product.description}</p>
 
-            {/* Variants */}
-            {product.variants?.sizes && (
+            {/* Sizes */}
+            {hasSizes && (
               <div>
-                <h3 className="font-semibold mb-3">Ukuran</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  Ukuran {selectedSize && <span className="text-amber-600">— {selectedSize}</span>}
+                </h3>
                 <div className="flex gap-2 flex-wrap">
-                  {product.variants.sizes.map((size) => (
+                  {product.variants!.sizes!.map((size) => (
                     <button
                       key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`min-w-[44px] h-11 px-4 rounded-lg border-2 font-medium transition-all ${
+                      onClick={() => setSelectedSize(size === selectedSize ? '' : size)}
+                      className={`min-w-[44px] h-11 px-4 rounded-xl border-2 font-medium text-sm transition-all ${
                         selectedSize === size
                           ? 'border-amber-500 bg-amber-50 text-amber-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-gray-200 hover:border-amber-300 text-gray-700'
                       }`}
                     >
                       {size}
@@ -243,18 +185,21 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               </div>
             )}
 
-            {product.variants?.colors && (
+            {/* Colors */}
+            {hasColors && (
               <div>
-                <h3 className="font-semibold mb-3">Warna</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  Warna {selectedColor && <span className="text-amber-600">— {selectedColor}</span>}
+                </h3>
                 <div className="flex gap-2 flex-wrap">
-                  {product.variants.colors.map((color) => (
+                  {product.variants!.colors!.map((color) => (
                     <button
                       key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`min-w-[44px] h-11 px-4 rounded-lg border-2 font-medium transition-all ${
+                      onClick={() => setSelectedColor(color === selectedColor ? '' : color)}
+                      className={`min-w-[44px] h-11 px-4 rounded-xl border-2 font-medium text-sm transition-all ${
                         selectedColor === color
                           ? 'border-amber-500 bg-amber-50 text-amber-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-gray-200 hover:border-amber-300 text-gray-700'
                       }`}
                     >
                       {color}
@@ -264,76 +209,75 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               </div>
             )}
 
-            {/* Quantity & Add to Cart */}
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-3">Jumlah</h3>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center border-2 border-gray-200 rounded-lg">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-11 h-11 flex items-center justify-center hover:bg-gray-50 transition-colors"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="w-12 text-center font-medium">{quantity}</span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="w-11 h-11 flex items-center justify-center hover:bg-gray-50 transition-colors"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <span className="text-sm text-gray-600">
-                    Stok: {product.stock}
-                  </span>
+            {/* Quantity */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">Jumlah</h3>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-11 h-11 flex items-center justify-center hover:bg-gray-50 transition-colors text-gray-600"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="w-12 text-center font-semibold text-gray-900">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                    className="w-11 h-11 flex items-center justify-center hover:bg-gray-50 transition-colors text-gray-600"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
                 </div>
-              </div>
-
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleAddToCart}
-                  className="flex-1 h-12 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl"
-                  disabled={product.stock === 0}
-                >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  {product.stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-12 w-12 rounded-xl border-2"
-                >
-                  <Heart className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-12 w-12 rounded-xl border-2"
-                >
-                  <Share2 className="w-5 h-5" />
-                </Button>
+                <span className="text-sm text-gray-500">
+                  {product.stock > 0 ? `${product.stock} tersedia` : 'Stok habis'}
+                </span>
               </div>
             </div>
 
+            {/* CTA Buttons */}
+            <div className="flex gap-3 pt-2">
+              <Button
+                onClick={handleAddToCart}
+                disabled={product.stock === 0}
+                className="flex-1 h-12 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl text-base"
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                {product.stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-12 w-12 rounded-xl border-2 border-gray-200 hover:border-amber-400"
+              >
+                <Heart className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-12 w-12 rounded-xl border-2 border-gray-200 hover:border-amber-400"
+              >
+                <Share2 className="w-5 h-5" />
+              </Button>
+            </div>
+
             {/* Product Details */}
-            <Card className="p-6 bg-white/50 backdrop-blur-sm">
-              <h3 className="font-semibold mb-4">Detail Produk</h3>
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-amber-100">
+              <h3 className="font-semibold text-gray-900 mb-4">Detail Produk</h3>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Kategori</span>
-                  <span className="capitalize">{product.category}</span>
+                <div className="flex justify-between py-1 border-b border-gray-100">
+                  <span className="text-gray-500">Kategori</span>
+                  <span className="font-medium capitalize">{product.category}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Stok</span>
-                  <span>{product.stock} unit</span>
+                <div className="flex justify-between py-1 border-b border-gray-100">
+                  <span className="text-gray-500">Stok</span>
+                  <span className="font-medium">{product.stock} unit</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Rating</span>
-                  <span>{product.rating}/5.0</span>
+                <div className="flex justify-between py-1">
+                  <span className="text-gray-500">Rating</span>
+                  <span className="font-medium">{product.rating}/5.0 ({product.reviews} ulasan)</span>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </div>

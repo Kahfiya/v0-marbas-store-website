@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { LoadingScreen } from '@/components/loading-screen'
 import { Header } from '@/components/header'
 import { HeroSection } from '@/components/hero-section'
@@ -16,18 +17,20 @@ import { CustomCursor } from '@/components/custom-cursor'
 import { ScrollProgress } from '@/components/scroll-progress'
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState('')
+
   return (
     <>
       <LoadingScreen />
       <CustomCursor />
       <ScrollProgress />
-      <Header />
+      <Header onSearch={setSearchQuery} />
       <CartDrawer />
       
       <main>
         <HeroSection />
         <CollectionsSection />
-        <ProductsSection />
+        <ProductsSection searchQuery={searchQuery} />
         <FeaturedSection />
         <AboutSection />
         <TestimonialsSection />

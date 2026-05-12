@@ -2,195 +2,12 @@
 
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { ShoppingBag, Heart, Eye, Star, Filter } from 'lucide-react'
+import { ShoppingBag, Heart, Eye, Star } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/hooks/use-cart'
-
-const products = [
-  // Parfume (6 Products)
-  {
-    id: 'p1',
-    name: 'Hera',
-    category: 'parfume',
-    price: 1250000,
-    originalPrice: 1500000,
-    image: '/images/Hera.jpg',
-    rating: 4.9,
-    reviews: 128,
-    isNew: true,
-    isBestSeller: false,
-  },
-  {
-    id: 'p2',
-    name: 'Uranus',
-    category: 'parfume',
-    price: 980000,
-    originalPrice: null,
-    image: '/images/Uranus.jpg',
-    rating: 4.7,
-    reviews: 95,
-    isNew: false,
-    isBestSeller: true,
-  },
-  {
-    id: 'p3',
-    name: 'Artemis',
-    category: 'parfume',
-    price: 1450000,
-    originalPrice: null,
-    image: '/images/Artemis.jpg',
-    rating: 4.7,
-    reviews: 67,
-    isNew: false,
-    isBestSeller: false,
-  },
-  {
-    id: 'p4',
-    name: 'Aphrodite',
-    category: 'parfume',
-    price: 1350000,
-    originalPrice: 1600000,
-    image: '/images/Aphrodite.jpg',
-    rating: 4.8,
-    reviews: 156,
-    isNew: false,
-    isBestSeller: true,
-  },
-  {
-    id: 'p5',
-    name: 'Himeros',
-    category: 'parfume',
-    price: 890000,
-    originalPrice: null,
-    image: '/images/Himeros.jpg',
-    rating: 4.5,
-    reviews: 82,
-    isNew: true,
-    isBestSeller: false,
-  },
-  {
-    id: 'p6',
-    name: 'Paladin',
-    category: 'parfume',
-    price: 2850000,
-    originalPrice: 3200000,
-    image: '/images/Paladin.jpg',
-    rating: 5.0,
-    reviews: 203,
-    isNew: false,
-    isBestSeller: true,
-  },
-  // Wearable (6 Products)
-  {
-    id: 'w1',
-    name: 'Batik Parang Modern',
-    category: 'wearable',
-    price: 2450000,
-    originalPrice: 2800000,
-    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=500&fit=crop',
-    rating: 4.8,
-    reviews: 76,
-    isNew: false,
-    isBestSeller: true,
-  },
-  {
-    id: 'w2',
-    name: 'Tenun Sumba Jacket',
-    category: 'wearable',
-    price: 3200000,
-    originalPrice: null,
-    image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=500&fit=crop',
-    rating: 4.9,
-    reviews: 54,
-    isNew: true,
-    isBestSeller: false,
-  },
-  {
-    id: 'w3',
-    name: 'Songket Blazer',
-    category: 'wearable',
-    price: 4500000,
-    originalPrice: 5200000,
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop',
-    rating: 5.0,
-    reviews: 42,
-    isNew: true,
-    isBestSeller: true,
-  },
-  {
-    id: 'w4',
-    name: 'Kebaya Modern Silk',
-    category: 'wearable',
-    price: 2750000,
-    originalPrice: null,
-    image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&h=500&fit=crop',
-    rating: 4.7,
-    reviews: 98,
-    isNew: false,
-    isBestSeller: false,
-  },
-  {
-    id: 'w5',
-    name: 'Sarung Samarinda Premium',
-    category: 'wearable',
-    price: 1850000,
-    originalPrice: 2100000,
-    image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=500&fit=crop',
-    rating: 4.6,
-    reviews: 134,
-    isNew: false,
-    isBestSeller: true,
-  },
-  {
-    id: 'w6',
-    name: 'Ulos Batak Scarf',
-    category: 'wearable',
-    price: 1250000,
-    originalPrice: null,
-    image: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=400&h=500&fit=crop',
-    rating: 4.8,
-    reviews: 67,
-    isNew: true,
-    isBestSeller: false,
-  },
-  // Tech (3 Products)
-  {
-    id: 't1',
-    name: 'Batik Phone Case',
-    category: 'tech',
-    price: 450000,
-    originalPrice: 550000,
-    image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&h=500&fit=crop',
-    rating: 4.6,
-    reviews: 234,
-    isNew: false,
-    isBestSeller: true,
-  },
-  {
-    id: 't2',
-    name: 'Wayang Earbuds',
-    category: 'tech',
-    price: 1850000,
-    originalPrice: null,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=500&fit=crop',
-    rating: 4.8,
-    reviews: 89,
-    isNew: true,
-    isBestSeller: false,
-  },
-  {
-    id: 't3',
-    name: 'Nusantara Smartwatch Band',
-    category: 'tech',
-    price: 650000,
-    originalPrice: 780000,
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=500&fit=crop',
-    rating: 4.7,
-    reviews: 178,
-    isNew: false,
-    isBestSeller: true,
-  },
-]
+import { products } from '@/lib/products'
+import type { Product } from '@/lib/products'
 
 const categories = [
   { id: 'all', name: 'Semua' },
@@ -199,7 +16,11 @@ const categories = [
   { id: 'tech', name: 'Tech' },
 ]
 
-export function ProductsSection() {
+interface ProductsSectionProps {
+  searchQuery?: string
+}
+
+export function ProductsSection({ searchQuery = '' }: ProductsSectionProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [activeCategory, setActiveCategory] = useState('all')
@@ -207,9 +28,11 @@ export function ProductsSection() {
   const [wishlist, setWishlist] = useState<string[]>([])
   const { addItem } = useCart()
 
-  const filteredProducts = activeCategory === 'all'
-    ? products
-    : products.filter((p) => p.category === activeCategory)
+  const filteredProducts = products.filter((p) => {
+    const matchCategory = activeCategory === 'all' || p.category === activeCategory
+    const matchSearch = searchQuery === '' || p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchCategory && matchSearch
+  })
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -227,7 +50,7 @@ export function ProductsSection() {
     )
   }
 
-  const handleAddToCart = (product: typeof products[0]) => {
+  const handleAddToCart = (product: Product) => {
     addItem({
       id: product.id,
       name: product.name,
@@ -310,7 +133,8 @@ export function ProductsSection() {
               >
                 <div className="relative bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300">
                   {/* Image Container */}
-                  <div className="relative aspect-[4/5] overflow-hidden">
+                  <Link href={`/product/${product.slug}`}>
+                  <div className="relative aspect-[4/5] overflow-hidden cursor-pointer">
                     <motion.img
                       src={product.image}
                       alt={product.name}
@@ -368,21 +192,27 @@ export function ProductsSection() {
                       className="absolute bottom-4 left-4 right-4 flex gap-2"
                     >
                       <Button
-                        onClick={() => handleAddToCart(product)}
+                        onClick={(e) => { e.preventDefault(); handleAddToCart(product) }}
                         className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
                       >
                         <ShoppingBag className="w-4 h-4 mr-2" />
                         Keranjang
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="bg-white/80 backdrop-blur-sm border-0"
+                      <Link
+                        href={`/product/${product.slug}`}
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        <Eye className="w-4 h-4" />
-                      </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="bg-white/80 backdrop-blur-sm border-0"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                      </Link>
                     </motion.div>
                   </div>
+                  </Link>
 
                   {/* Product Info */}
                   <div className="p-4">
@@ -392,9 +222,11 @@ export function ProductsSection() {
                     </p>
 
                     {/* Name */}
-                    <h3 className="font-semibold text-foreground mb-2 line-clamp-1">
-                      {product.name}
-                    </h3>
+                    <Link href={`/product/${product.slug}`}>
+                      <h3 className="font-semibold text-foreground mb-2 line-clamp-1 hover:text-primary transition-colors">
+                        {product.name}
+                      </h3>
+                    </Link>
 
                     {/* Rating */}
                     <div className="flex items-center gap-2 mb-3">

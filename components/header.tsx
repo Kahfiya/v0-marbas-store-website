@@ -14,7 +14,11 @@ const navLinks = [
   { name: 'Kontak', href: '#contact' },
 ]
 
-export function Header() {
+interface HeaderProps {
+  onSearch?: (query: string) => void
+}
+
+export function Header({ onSearch }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -34,6 +38,17 @@ export function Header() {
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
+    onSearch?.(value)
+    if (value.length > 0) {
+      const productsSection = document.querySelector('#products')
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 
@@ -181,8 +196,9 @@ export function Header() {
                   <input
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => handleSearchChange(e.target.value)}
                     placeholder="Cari produk..."
+                    autoFocus
                     className="w-full px-4 py-3 pl-12 bg-secondary rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
