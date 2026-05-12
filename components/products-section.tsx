@@ -135,7 +135,7 @@ export function ProductsSection({ searchQuery = '' }: ProductsSectionProps) {
                   {/* Image Container */}
                   <Link href={`/product/${product.slug}`}>
                   <div className="relative aspect-[4/5] overflow-hidden cursor-pointer bg-gradient-to-br from-gray-100 to-gray-200">
-                    {product.image.startsWith('http') ? (
+                    {product.image.startsWith('/images/') ? (
                       <motion.img
                         src={product.image}
                         alt={product.name}
@@ -144,7 +144,6 @@ export function ProductsSection({ searchQuery = '' }: ProductsSectionProps) {
                           scale: hoveredProduct === product.id ? 1.08 : 1,
                         }}
                         transition={{ duration: 0.4 }}
-                        crossOrigin="anonymous"
                       />
                     ) : (
                       <motion.div
