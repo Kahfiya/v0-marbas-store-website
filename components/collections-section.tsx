@@ -6,14 +6,14 @@ import { Droplets, Shirt, Cpu, ArrowRight } from 'lucide-react'
 
 const collections = [
   {
-    id: 'services',
-    name: 'Jasa Digital',
-    title: 'Solusi Digital',
-    description: 'Layanan pembuatan website, aplikasi, dan digital marketing profesional',
-    icon: Cpu,
+    id: 'parfume',
+    name: 'Parfume',
+    title: 'Aroma Nusantara',
+    description: 'Wewangian eksklusif terinspirasi dari rempah-rempah dan bunga khas Indonesia',
+    icon: Droplets,
     image: '/images/JALAWA-V1.png',
     count: 6,
-    color: 'from-blue-900/80 to-blue-700/60',
+    color: 'from-amber-900/80 to-amber-700/60',
   },
   {
     id: 'wearable',
@@ -30,7 +30,7 @@ const collections = [
     name: 'Tech',
     title: 'Teknologi Premium',
     description: 'Gadget dan aksesori dengan desain yang mengapresiasi estetika lokal',
-    icon: Droplets,
+    icon: Cpu,
     image: 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=600&h=800&fit=crop',
     count: 3,
     color: 'from-slate-900/80 to-slate-700/60',

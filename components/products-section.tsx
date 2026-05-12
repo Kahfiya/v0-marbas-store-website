@@ -11,7 +11,7 @@ import type { Product } from '@/lib/products'
 
 const categories = [
   { id: 'all', name: 'Semua' },
-  { id: 'services', name: 'Jasa Digital' },
+  { id: 'parfume', name: 'Parfume' },
   { id: 'wearable', name: 'Wearable' },
   { id: 'tech', name: 'Tech' },
 ]
