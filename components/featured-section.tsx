@@ -11,7 +11,7 @@ const partners = [
   },
   { 
     name: 'Shopee', 
-    logo: 'https://logowik.com/content/uploads/images/shopee1950.jpg' 
+    logo: 'https://www.freepnglogos.com/uploads/shopee-logo/logo-shopee-png-images-download-shopee-1.png' 
   },
   { 
     name: 'Lazada', 
@@ -19,7 +19,7 @@ const partners = [
   },
   { 
     name: 'Blibli', 
-    logo: 'https://images.seeklogo.com/logo-png/43/1/blibli-com-logo-png_seeklogo-431694.png' 
+    logo: 'https://images.seeklogo.com/logo-png/33/1/blibli-logo-png_seeklogo-339734.png' 
   },
   { 
     name: 'Bukalapak', 
@@ -65,7 +65,7 @@ export function FeaturedSection() {
                     src={partner.logo}
                     alt={partner.name}
                     fill
-                    className="object-contain"
+                    className="object-contain mix-blend-multiply dark:mix-blend-screen"
                     unoptimized
                   />
                 </div>
