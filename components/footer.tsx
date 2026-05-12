@@ -26,10 +26,10 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { name: 'Instagram', icon: Instagram, href: '#' },
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/marbas.official?igsh=MXVmbXRsdTR1cndycw==' },
   { name: 'Facebook', icon: Facebook, href: '#' },
   { name: 'Youtube', icon: Youtube, href: '#' },
-  { name: 'Email', icon: Mail, href: '#' },
+  { name: 'Email', icon: Mail, href: 'mailto:kahfiyanurgunami@gmail.com' },
 ]
 
 export function Footer() {
