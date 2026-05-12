@@ -11,7 +11,7 @@ const collections = [
     title: 'Aroma Nusantara',
     description: 'Wewangian eksklusif terinspirasi dari rempah-rempah dan bunga khas Indonesia',
     icon: Droplets,
-    image: '/images/JALAWA-V1.png',
+    image: '/images/Catalog-Parfume.png',
     count: 6,
     color: 'from-amber-900/80 to-amber-700/60',
   },
