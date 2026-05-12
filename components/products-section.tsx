@@ -134,17 +134,33 @@ export function ProductsSection({ searchQuery = '' }: ProductsSectionProps) {
                 <div className="relative bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300">
                   {/* Image Container */}
                   <Link href={`/product/${product.slug}`}>
-                  <div className="relative aspect-[4/5] overflow-hidden cursor-pointer">
-                    <motion.img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                      animate={{
-                        scale: hoveredProduct === product.id ? 1.08 : 1,
-                      }}
-                      transition={{ duration: 0.4 }}
-                      crossOrigin="anonymous"
-                    />
+                  <div className="relative aspect-[4/5] overflow-hidden cursor-pointer bg-gradient-to-br from-gray-100 to-gray-200">
+                    {product.image.startsWith('http') ? (
+                      <motion.img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                        animate={{
+                          scale: hoveredProduct === product.id ? 1.08 : 1,
+                        }}
+                        transition={{ duration: 0.4 }}
+                        crossOrigin="anonymous"
+                      />
+                    ) : (
+                      <motion.div
+                        className="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-50"
+                        animate={{
+                          scale: hoveredProduct === product.id ? 1.08 : 1,
+                        }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        <div className="text-center p-6">
+                          <div className="text-4xl mb-2">📦</div>
+                          <p className="text-sm font-medium text-gray-600">Image</p>
+                          <p className="text-xs text-gray-400">Coming Soon</p>
+                        </div>
+                      </motion.div>
+                    )}
 
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-col gap-2">
