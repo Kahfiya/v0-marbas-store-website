@@ -8,7 +8,6 @@ import { CollectionsSection } from '@/components/collections-section'
 import { ProductsSection } from '@/components/products-section'
 import { FeaturedSection } from '@/components/featured-section'
 import { AboutSection } from '@/components/about-section'
-import { TestimonialsSection } from '@/components/testimonials-section'
 import { NewsletterSection } from '@/components/newsletter-section'
 import { ContactSection } from '@/components/contact-section'
 import { Footer } from '@/components/footer'
@@ -33,7 +32,6 @@ export default function Home() {
         <ProductsSection searchQuery={searchQuery} />
         <FeaturedSection />
         <AboutSection />
-        <TestimonialsSection />
         <NewsletterSection />
         <ContactSection />
       </main>
