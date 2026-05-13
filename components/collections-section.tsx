@@ -31,7 +31,7 @@ const collections = [
     title: 'Teknologi & Jasa',
     description: 'Gadget, aksesori, dan layanan digital dengan sentuhan lokal',
     icon: Cpu,
-    image: '/images/Catalog Tech&Jasa.png',
+    image: '/images/Catalog-TechJasa.png',
     count: 3,
     color: 'from-slate-900/80 to-slate-700/60',
   },
