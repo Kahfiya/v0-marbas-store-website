@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ShoppingBag, Search, User, Heart } from 'lucide-react'
+import Link from 'next/link'
 import { useCart } from '@/hooks/use-cart'
 import { cn } from '@/lib/utils'
 
@@ -68,29 +69,26 @@ export function Header({ onSearch }: HeaderProps) {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <motion.a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault()
-                handleNavClick('#home')
-              }}
-              className="relative group"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <h1 
-                className="text-2xl md:text-3xl font-bold tracking-wider text-foreground"
-                style={{ fontFamily: 'Playfair Display, serif' }}
-              >
-                MARBAS
-              </h1>
+            <Link href="/">
               <motion.div
-                className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-primary to-accent"
-                initial={{ width: 0 }}
-                whileHover={{ width: '100%' }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.a>
+                className="relative group cursor-pointer"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <h1 
+                  className="text-2xl md:text-3xl font-bold tracking-wider text-foreground"
+                  style={{ fontFamily: 'Playfair Display, serif' }}
+                >
+                  MARBAS
+                </h1>
+                <motion.div
+                  className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-primary to-accent"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: '100%' }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
@@ -131,6 +129,7 @@ export function Header({ onSearch }: HeaderProps) {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                onClick={() => alert('Fitur Wishlist akan segera hadir!')}
                 className="p-2 text-foreground/80 hover:text-foreground transition-colors hidden md:block"
                 aria-label="Wishlist"
               >
@@ -138,14 +137,16 @@ export function Header({ onSearch }: HeaderProps) {
               </motion.button>
 
               {/* User */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-2 text-foreground/80 hover:text-foreground transition-colors hidden md:block"
-                aria-label="Akun"
-              >
-                <User className="w-5 h-5" />
-              </motion.button>
+              <Link href="/login">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="p-2 text-foreground/80 hover:text-foreground transition-colors hidden md:block"
+                  aria-label="Akun"
+                >
+                  <User className="w-5 h-5" />
+                </motion.button>
+              </Link>
 
               {/* Cart */}
               <motion.button
@@ -260,14 +261,17 @@ export function Header({ onSearch }: HeaderProps) {
               </div>
               <div className="p-6 border-t border-border">
                 <div className="flex items-center gap-6">
-                  <button className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors">
+                  <button 
+                    onClick={() => alert('Fitur Wishlist akan segera hadir!')}
+                    className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors"
+                  >
                     <Heart className="w-5 h-5" />
                     <span className="text-sm">Wishlist</span>
                   </button>
-                  <button className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors">
+                  <Link href="/login" className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors">
                     <User className="w-5 h-5" />
                     <span className="text-sm">Akun</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             </motion.nav>
