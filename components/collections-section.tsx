@@ -27,9 +27,9 @@ const collections = [
   },
   {
     id: 'tech',
-    name: 'Tech',
-    title: 'Teknologi Premium',
-    description: 'Gadget dan aksesori dengan desain yang mengapresiasi estetika lokal',
+    name: 'Tech & Jasa',
+    title: 'Teknologi & Jasa',
+    description: 'Gadget, aksesori, dan layanan digital dengan sentuhan lokal',
     icon: Cpu,
     image: 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=600&h=800&fit=crop',
     count: 3,

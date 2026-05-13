@@ -13,7 +13,7 @@ const categories = [
   { id: 'all', name: 'Semua' },
   { id: 'parfume', name: 'Parfume' },
   { id: 'wearable', name: 'Wearable' },
-  { id: 'tech', name: 'Tech' },
+  { id: 'tech', name: 'Tech & Jasa' },
 ]
 
 interface ProductsSectionProps {
