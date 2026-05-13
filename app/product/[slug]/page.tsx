@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, use } from 'react'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,8 +13,9 @@ import { Footer } from '@/components/footer'
 import { CartDrawer } from '@/components/cart-drawer'
 import { getProductBySlug } from '@/lib/products'
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = getProductBySlug(params.slug)
+export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = use(params)
+  const product = getProductBySlug(resolvedParams.slug)
 
   if (!product) return notFound()
 
