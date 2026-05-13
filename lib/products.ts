@@ -256,12 +256,12 @@ export const products: Product[] = [
       'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=600&fit=crop',
     ],
   },
-  // Tech
+  // Tech & Jasa
   {
     id: 't1',
     name: 'Tech & Jasa',
     slug: 'batik-phone-case',
-    category: 'tech',
+    category: 'tech & jasa',
     price: 450000,
     originalPrice: 550000,
     image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&h=500&fit=crop',
@@ -283,7 +283,7 @@ export const products: Product[] = [
     id: 't2',
     name: 'Tech & Jasa',
     slug: 'wayang-earbuds',
-    category: 'tech',
+    category: 'tech & jasa',
     price: 1850000,
     originalPrice: null,
     image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=500&fit=crop',
@@ -305,7 +305,7 @@ export const products: Product[] = [
     id: 't3',
     name: 'Tech & Jasa',
     slug: 'nusantara-smartwatch-band',
-    category: 'tech',
+    category: 'tech & jasa',
     price: 650000,
     originalPrice: 780000,
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=500&fit=crop',

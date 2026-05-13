@@ -55,7 +55,7 @@ function ProductDetail({ product }: { product: NonNullable<ReturnType<typeof get
     
     const message = `Halo MARBAS, saya ingin memesan:\n\nProduk: ${productName}\nJumlah: ${quantity}\nTotal: ${totalPrice}\n\nMohon informasi lebih lanjut. Terima kasih!`
     
-    const whatsappUrl = `https://wa.me/6289536554001?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/62895365540011?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 

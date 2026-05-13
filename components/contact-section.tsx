@@ -19,12 +19,12 @@ const contactInfo = [
   {
     icon: Mail,
     title: 'Email',
-    content: 'kahfiya@marbas.id',
+    content: 'kahfiyanurgunami@gmail.com',
   },
   {
     icon: Clock,
     title: 'Jam Operasional',
-    content: 'Senin - Jumat: 09:00 - 18:00 WIB',
+    content: 'Senin - Jumat: 09:00 - 21:00 WIB',
   },
 ]
 
