@@ -14,6 +14,7 @@ import { Footer } from '@/components/footer'
 import { CartDrawer } from '@/components/cart-drawer'
 import { CustomCursor } from '@/components/custom-cursor'
 import { ScrollProgress } from '@/components/scroll-progress'
+import { WhatsAppFloat } from '@/components/whatsapp-float'
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -25,6 +26,7 @@ export default function Home() {
       <ScrollProgress />
       <Header onSearch={setSearchQuery} />
       <CartDrawer />
+      <WhatsAppFloat />
       
       <main>
         <HeroSection />
